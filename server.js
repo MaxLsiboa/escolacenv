@@ -1,81 +1,57 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boletim Online - Home</title>
-    <link rel="icon" type="image/png" href="public/images/favicon.ico">
-    <link rel="stylesheet" href="public/scripts/styles.css">
-    <style>
-        /* Seus estilos específicos para a página inicial podem ser adicionados aqui */
-    </style>
-</head>
-<body>
-    <header>
-        <div class="banner">
-            <img src="public/images/banner.png" alt="Banner do Site">
-        </div>
-        <h1 class="title">Boletim Online</h1>
-    </header>
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 
-    <section class="login-section">
-        <div class="login-aluno">
-            <h2 class="subtitle">Sou Aluno</h2>
-            <p class="description">Acesse sua conta para ver suas notas e boletins.</p>
-            <button class="login-button" onclick="window.location.href='aluno.html'">Login</button>
-        </div>
+const app = express();
 
-        <div class="login-professor">
-            <h2 class="subtitle">Sou professor(a)</h2>
-            <p class="description">Faça o login para gerenciar notas e boletins dos alunos.</p>
-            <button class="login-button" onclick="window.location.href='admin.html'">Login</button>
-        </div>
-    </section>
+// Middleware para análise de corpo
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    <footer>
-        <p>Desenvolvido por MTK-INFOR</p>
-    </footer>
-</body>
-</html>
-=======
-<!-- views/index.html -->
+// Configuração do banco de dados MariaDB
+const connection = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: 'lisboa',
+  database: 'Escola-cenv'
+});
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boletim Online - Home</title>
-    <link rel="icon" type="image/png" href="public/images/favicon.ico">
-    <link rel="stylesheet" href="public/scripts/styles.css">
-    <style>
-        /* Seus estilos específicos para a página inicial podem ser adicionados aqui */
-    </style>
-</head>
-<body>
-    <header>
-        <div class="banner">
-            <img src="public/images/banner.png" alt="Banner do Site">
-        </div>
-        <h1 class="title">Boletim Online</h1>
-    </header>
+// Conexão com o banco de dados
+connection.connect(err => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  } else {
+    console.log('Conexão bem-sucedida ao banco de dados!');
+  }
+});
 
-    <section class="login-section">
-        <div class="login-aluno">
-            <h2 class="subtitle">Sou Aluno</h2>
-            <p class="description">Acesse sua conta para ver suas notas e boletins.</p>
-            <button class="login-button" onclick="window.location.href='aluno.html'">Login</button>
-        </div>
+// Rota para a página de login do administrador
+app.post('/login_admin', (req, res) => {
+  const { username, password } = req.body;
 
-        <div class="login-professor">
-            <h2 class="subtitle">Sou professor(a)</h2>
-            <p class="description">Faça o login para gerenciar notas e boletins dos alunos.</p>
-            <button class="login-button" onclick="window.location.href='admin.html'">Login</button>
-        </div>
-    </section>
+  // Verifique as credenciais no banco de dados
+  connection.query(
+    'SELECT * FROM admin_users WHERE username = ? AND password = ?',
+    [username, password],
+    (err, results) => {
+      if (err) {
+        console.error('Erro ao consultar o banco de dados:', err);
+        res.redirect('/login_admin');
+        return;
+      }
 
-    <footer>
-        <p>Desenvolvido por MTK-INFOR</p>
-    </footer>
-</body>
-</html>
+      if (results.length > 0) {
+        // Redirecione para admin.html após a autenticação bem-sucedida
+        res.redirect('/admin.html');
+      } else {
+        // Caso contrário, redirecione de volta para a página de login
+        res.redirect('/login_admin');
+      }
+    }
+  );
+});
+
+// Inicialização do servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
