@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<!-- views/index.html -->
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -82,4 +79,3 @@
     </footer>
 </body>
 </html>
->>>>>>> 203c917c6ff0d52ebe462816b189de6eca222d5d
