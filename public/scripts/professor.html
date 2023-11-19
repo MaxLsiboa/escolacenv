@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boletim Online - Professor</title>
+    <link rel="icon" type="image/png" href="https://scontent.fjdo10-1.fna.fbcdn.net/v/t39.30808-6/302195836_533642181936105_6361089609083728007_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CeLwXTtVc6oAX_j3izP&_nc_ht=scontent.fjdo10-1.fna&oh=00_AfDV4BTMMwaRakZSVjnr8z_Tz9sGSNkLB3X1Htuj93gxHQ&oe=649145DA"> <!-- Ícone da página -->
+    <style>
+        /* Estilos CSS personalizados */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        footer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .student-details {
+            margin-top: 20px;
+        }
+        
+        .student-details h3 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Boletim Online - Página do Professor</h1>
+        <div class="banner">
+            <img src="https://scontent.fjdo10-1.fna.fbcdn.net/v/t39.30808-6/305837171_533642178602772_4165576870581033453_n.png?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_ohc=bSC2tenf4QwAX9KLXus&_nc_ht=scontent.fjdo10-1.fna&oh=00_AfC4UweLXMlWatIAWXZ5F--UMi94w8-Zau1F_XxAn6qJhw&oe=649014E4" alt="Aluno" style="width: 300px; height: auto;">
+        </div>
+    </header>
+
+    <section class="welcome-section">
+        <div class="welcome-info">
+            <h2>Bem-vindo, Professor {{ professor.nome }}</h2>
+            <p>Disciplina: {{ professor.disciplina }}</p>
+            <p>Turma: {{ professor.turma }}</p>
+            <p>Turno: {{ professor.turno }}</p>
+        </div>
+    </section>
+
+    <section>
+        <form method="POST" action="/salvar_notas" id="notasForm">
+            <table id="alunos-table">
+                <thead>
+                    <tr>
+                        <th>Nome do Aluno</th>
+                        <th>1º Bimestre</th>
+                        <th>2º Bimestre</th>
+                        <th>3º Bimestre</th>
+                        <th>4º Bimestre</th>
+                        <th>Prova Final</th>
+                        <th>Média Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aqui você pode adicionar linhas para cada aluno e preencher as informações -->
+                    {% for aluno in alunos %}
+                        <tr>
+                            <td>{{ aluno.nome }}</td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td>
+                                <input type="text" name="media_final_{{ aluno.id }}" readonly>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <button type="submit">Salvar</button>
+        </form>
+        
+        <div class="student-details">
+            <h3>Detalhes do Aluno</h3>
+            <p>Nome: <span id="aluno-nome"></span></p>
+            <p>Nota: <span id="aluno-nota"></span></p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Resultado Final</h2>
+        <p>[Cálculo do Resultado Final]</p>
+    </section>
+
+    <footer>
+        <p>Desenvolvido por MTK-INFOR</p>
+    </footer>
+
+    <script>
+        document.getElementById('notasForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Adicione aqui a lógica para processar e enviar as notas para o servidor
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login do Aluno</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .banner {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="public/images/logo.jpg" alt="Logo do Aluno" style="width: 300px; height: auto;">
+    </div>
+
+    <form method="POST" action="{{ url_for('login_aluno') }}" id="loginForm">
+        <h2>Login do Aluno</h2>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <input type="submit" value="Login">
+    </form>
+    <footer>Desenvolvido por MTK-INFOR</footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Adicione aqui a lógica de validação e envio do formulário
+            // Pode usar fetch, XMLHttpRequest ou outras formas de enviar os dados para o servidor
+        });
+    </script>
+</body>
+</html>

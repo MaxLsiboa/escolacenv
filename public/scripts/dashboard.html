@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel de Administração</title>
+    <link rel="icon" type="image/png" href="https://scontent.fjdo10-1.fna.fbcdn.net/v/t39.30808-6/302195836_533642181936105_6361089609083728007_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CeLwXTtVc6oAX_j3izP&_nc_ht=scontent.fjdo10-1.fna&oh=00_AfDV4BTMMwaRakZSVjnr8z_Tz9sGSNkLB3X1Htuj93gxHQ&oe=649145DA">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Painel de Administração</h1>
+
+    <h2>Professores</h2>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Senha</th>
+            <th>Disciplina</th>
+            <th>Turma</th>
+            <th>Turno</th>
+            <th>Ações</th>
+        </tr>
+        {% for professor in professores %}
+        <tr>
+            <td>{{ professor['nome'] }}</td>
+            <td>{{ professor['senha'] }}</td>
+            <td>{{ professor['disciplina'] }}</td>
+            <td>{{ professor['turma'] }}</td>
+            <td>{{ professor['turno'] }}</td>
+            <td>
+                <form action="/remover_professor/{{ professor['id'] }}" method="POST">
+                    <button type="submit">Remover</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Alunos</h2>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Senha</th>
+            <th>Ações</th>
+        </tr>
+        {% for aluno in alunos %}
+        <tr>
+            <td>{{ aluno['nome'] }}</td>
+            <td>{{ aluno['senha'] }}</td>
+            <td>
+                <form action="/remover_aluno/{{ aluno['id'] }}" method="POST">
+                    <button type="submit">Remover</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    </body>
+</html>

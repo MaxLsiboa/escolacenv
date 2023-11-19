@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Boletim Online - Administrador</title>
+    <link rel="icon" type="image/png" href="public/images/favicon.ico">
+    <link rel="stylesheet" href="public/scripts/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Ocupa pelo menos 100% da altura da viewport */
+        }
+
+        header {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        section {
+            margin-bottom: 20px;
+            text-align: center; /* Centralizar o conteúdo da seção */
+            width: 80%; /* Ajuste a largura conforme necessário */
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Boletim Online - Administrador</h1>
+        <div class="banner">
+            <img src="public/images/banner.png" alt="Banner" style="width: 300px; height: auto;">
+        </div>
+    </header>
+
+    <section>
+        <h2>Cadastro de Aluno</h2>
+        <div class="form-section">
+            <form id="adicionar-aluno-form" action="/adicionar_aluno" method="POST">
+                <input type="text" id="aluno-nome" name="aluno-nome" placeholder="Nome completo do aluno" required><br><br>
+                <input type="password" id="aluno-senha" name="aluno-senha" placeholder="Senha" required><br><br>
+                <button type="submit">Cadastrar Aluno</button>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <h2>Cadastro de Professor</h2>
+        <div class="form-section">
+            <form id="adicionar-professor-form" action="/adicionar_professor" method="POST">
+                <input type="text" id="professor-nome" name="professor-nome" placeholder="Nome completo do professor" required><br><br>
+                <input type="password" id="professor-senha" name="professor-senha" placeholder="Senha" required><br><br>
+                <input type="text" id="professor-disciplina" name="professor-disciplina" placeholder="Disciplina" required><br><br>
+                <ul id="professor-turmas-list">
+                    <li>
+                        <input type="text" name="professor-turma-1" placeholder="Turma" required>
+                        <input type="text" name="professor-turno-1" placeholder="Turno" required>
+                    </li>
+                </ul>
+                <button type="button" onclick="adicionarTurma()">Adicionar Turma</button>
+                <button type="submit">Cadastrar Professor</button>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <h2>Acesse o Painel de Cadastro</h2>
+        <div class="form-section">
+            <form id="acesso-dashboard-form" action="/acessar_painel" method="GET">
+                <button type="submit">Acessar Painel</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>Desenvolvido por MTK-INFOR</p>
+    </footer>
+
+    <script src="public/scripts/scripts.js"></script>
+</body>
+</html>

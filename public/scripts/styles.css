@@ -1,0 +1,126 @@
+/* Estilos generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f2f2f2;
+}
+
+/* Estilos para los encabezados y pies de página */
+header, footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+footer p {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* Estilos para las secciones */
+section {
+  max-width: 800px; /* Defina uma largura máxima para as seções */
+  margin: 20px auto; /* Centralize as seções na tela */
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+section p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los botones */
+button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+button:active {
+  background-color: #222;
+}
+
+/* Estilos para los formularios */
+form {
+  max-width: 800px; /* Defina uma largura máxima para os formulários */
+  margin: 20px auto; /* Centralize os formulários na tela */
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input[type="text"], form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+  background-color: #444;
+}
+
+form input[type="submit"]:active {
+  background-color: #222;
+}
+
+/* Estilos para las tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
