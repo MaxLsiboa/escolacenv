@@ -1,85 +1,108 @@
-<<<<<<< HEAD
-<!-- views/index.html -->
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boletim Online - Home</title>
-    <link rel="icon" type="image/png" href="public/images/favicon.ico">
-    <link rel="stylesheet" href="public/scripts/styles.css">
-    <style>
-        /* Seus estilos específicos para a página inicial podem ser adicionados aqui */
-    </style>
-</head>
-<body>
-    <header>
-        <div class="banner">
-            <img src="public/images/banner.png" alt="Banner do Site">
-        </div>
-        <h1 class="title">Boletim Online</h1>
-    </header>
+const app = express();
 
-    <section class="login-section">
-        <div class="login-aluno">
-            <h2 class="subtitle">Sou Aluno</h2>
-            <p class="description">Acesse sua conta para ver suas notas e boletins.</p>
-            <button class="login-button" onclick="window.location.href='aluno.html'">Login</button>
-        </div>
+// Middleware para análise de corpo
+app.use(bodyParser.urlencoded({ extended: true }));
 
-        <div class="login-professor">
-            <h2 class="subtitle">Sou professor(a)</h2>
-            <p class="description">Faça o login para gerenciar notas e boletins dos alunos.</p>
-            <button class="login-button" onclick="window.location.href='admin.html'">Login</button>
-        </div>
-    </section>
+// Configuração do banco de dados MariaDB
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'lisboa',
+  database: 'seu_banco_de_dados'
+});
 
-    <footer>
-        <p>Desenvolvido por MTK-INFOR</p>
-    </footer>
-</body>
-</html>
-=======
-<!-- views/index.html -->
+// Conexão com o banco de dados
+connection.connect(err => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  } else {
+    console.log('Conexão bem-sucedida ao banco de dados!');
+  }
+});
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boletim Online - Home</title>
-    <link rel="icon" type="image/png" href="public/images/favicon.ico">
-    <link rel="stylesheet" href="public/scripts/styles.css">
-    <style>
-        /* Seus estilos específicos para a página inicial podem ser adicionados aqui */
-    </style>
-</head>
-<body>
-    <header>
-        <div class="banner">
-            <img src="public/images/banner.png" alt="Banner do Site">
-        </div>
-        <h1 class="title">Boletim Online</h1>
-    </header>
+// Middleware de autenticação para verificar se o usuário está logado
+function authenticateUser(req, res, next) {
+  // Adicione lógica de autenticação aqui
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
-    <section class="login-section">
-        <div class="login-aluno">
-            <h2 class="subtitle">Sou Aluno</h2>
-            <p class="description">Acesse sua conta para ver suas notas e boletins.</p>
-            <button class="login-button" onclick="window.location.href='aluno.html'">Login</button>
-        </div>
+// Rota para a página inicial
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/views/index.html');
+});
 
-        <div class="login-professor">
-            <h2 class="subtitle">Sou professor(a)</h2>
-            <p class="description">Faça o login para gerenciar notas e boletins dos alunos.</p>
-            <button class="login-button" onclick="window.location.href='admin.html'">Login</button>
-        </div>
-    </section>
+// Rota para a página de login
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/public/views/login.html');
+});
 
-    <footer>
-        <p>Desenvolvido por MTK-INFOR</p>
-    </footer>
-</body>
-</html>
->>>>>>> 203c917c6ff0d52ebe462816b189de6eca222d5d
+// Rota para processar o login
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // Verifique as credenciais no banco de dados
+  connection.query(
+    'SELECT * FROM users WHERE username = ? AND password = ?',
+    [username, password],
+    (err, results) => {
+      if (err) {
+        console.error('Erro ao consultar o banco de dados:', err);
+        res.redirect('/login');
+        return;
+      }
+
+      if (results.length > 0) {
+        // Crie uma sessão para armazenar o usuário logado
+        req.session.user = results[0];
+        res.redirect('/');
+      } else {
+        res.redirect('/login');
+      }
+    }
+  );
+});
+
+// Rota para a página do aluno (requer autenticação)
+app.get('/aluno', authenticateUser, (req, res) => {
+  res.sendFile(__dirname + '/public/views/aluno.html');
+});
+
+// Rota para a página do professor (requer autenticação)
+app.get('/professor', authenticateUser, (req, res) => {
+  res.sendFile(__dirname + '/public/views/professor.html');
+});
+
+// Rota para a página do administrador (requer autenticação)
+app.get('/admin', authenticateUser, (req, res) => {
+  // Verifique se o usuário autenticado é um administrador
+  if (req.session.user && req.session.user.role === 'admin') {
+    res.sendFile(__dirname + '/public/views/admin.html');
+  } else {
+    res.redirect('/');
+  }
+});
+
+// Rota para fazer logout
+app.get('/logout', (req, res) => {
+  // Destrua a sessão para fazer logout
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Erro ao fazer logout:', err);
+    }
+    res.redirect('/');
+  });
+});
+
+// Inicialização do servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
