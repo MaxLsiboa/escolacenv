@@ -62,7 +62,9 @@ app.post('/login', (req, res) => {
       if (results.length > 0) {
         // Crie uma sessão para armazenar o usuário logado
         req.session.user = results[0];
-        res.redirect('/');
+
+        // Redirecione para a página do aluno (ou qualquer página central)
+        res.redirect('/aluno');
       } else {
         res.redirect('/login');
       }
