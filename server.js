@@ -49,28 +49,29 @@ app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
   // Verifique as credenciais no banco de dados
-  connection.query(
-    'SELECT * FROM users WHERE username = ? AND password = ?',
-    [username, password],
-    (err, results) => {
-      if (err) {
-        console.error('Erro ao consultar o banco de dados:', err);
-        res.redirect('/login');
-        return;
-      }
-
-      if (results.length > 0) {
-        // Crie uma sessão para armazenar o usuário logado
-        req.session.user = results[0];
-
-        // Redirecione para a página do aluno (ou qualquer página central)
-        res.redirect('/aluno');
-      } else {
-        res.redirect('/login');
-      }
+connection.query(
+  'SELECT * FROM users WHERE username = ? AND password = ?',
+  [username, password],
+  (err, results) => {
+    if (err) {
+      console.error('Erro ao consultar o banco de dados:', err);
+      res.redirect('/login');
+      return;
     }
-  );
-});
+
+    console.log('Resultado da consulta:', results);
+
+    if (results.length > 0) {
+      // Crie uma sessão para armazenar o usuário logado
+      req.session.user = results[0];
+
+      // Redirecione para a página do aluno (ou qualquer página central)
+      res.redirect('/aluno');
+    } else {
+      res.redirect('/login');
+    }
+  }
+);
 
 // Rota para a página do aluno (requer autenticação)
 app.get('/aluno', authenticateUser, (req, res) => {
