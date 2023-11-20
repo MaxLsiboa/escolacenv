@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuração do banco de dados MariaDB
 const connection = mysql.createConnection({
-  host: '127.0.01',
+  host: '127.0.0.1',
   user: 'root',
   password: 'lisboa',
   database: 'Escola-cenv'
