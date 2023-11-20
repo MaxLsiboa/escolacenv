@@ -106,6 +106,12 @@ app.get('/logout', (req, res) => {
   });
 });
 
+// Evento beforeExit para fechar a conexão antes de sair
+process.on('beforeExit', () => {
+  console.log('Fechando a conexão com o banco de dados antes de sair.');
+  connection.end();
+});
+
 // Inicialização do servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
