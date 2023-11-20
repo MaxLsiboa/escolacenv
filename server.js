@@ -86,8 +86,10 @@ app.get('/professor', authenticateUser, (req, res) => {
 app.get('/admin', authenticateUser, (req, res) => {
   // Verifique se o usuário autenticado é um administrador
   if (req.session.user && req.session.user.role === 'admin') {
-    res.sendFile(__dirname + 'escolacenv/public/scripts/admin.html');
+    console.log('Usuário autenticado como administrador:', req.session.user.username);
+    res.sendFile(__dirname + '/public/scripts/admin.html');
   } else {
+    console.log('Usuário não autenticado como administrador. Redirecionando para /login');
     res.redirect('/login'); // ou res.redirect('/');
   }
 });
