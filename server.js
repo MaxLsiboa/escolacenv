@@ -86,7 +86,7 @@ app.get('/admin', authenticateUser, (req, res) => {
   if (req.session.user && req.session.user.role === 'admin') {
     res.sendFile(__dirname + '/public/views/admin.html');
   } else {
-    res.redirect('/public/scripts/admin.html');
+    res.redirect('/');
   }
 });
 
