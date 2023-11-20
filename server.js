@@ -7,12 +7,14 @@ const app = express();
 // Middleware para análise de corpo
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configuração do banco de dados MariaDB
 const connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   password: 'lisboa',
-  database: 'Escola-cenv'
+  database: 'Escola-cenv',
+  authPlugins: {
+    gssapi: require('mysql2/lib/auth/auth_gssapi_client'),
+  },
 });
 
 // Conexão com o banco de dados
@@ -113,7 +115,7 @@ process.on('beforeExit', () => {
 });
 
 // Inicialização do servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3306;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
